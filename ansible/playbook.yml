@@ -1,0 +1,7 @@
+---
+- name: Installing required software
+  hosts: all
+  become: true
+  roles:
+    - role: bootstrap
+    - role: k3s

@@ -1,0 +1,8 @@
+---
+- name: Install packages
+  ansible.builtin.package:
+    name: "{{ bootstrap_packages }}"
+
+- name: Disable UFW
+  ansible.builtin.shell: |
+    if command -v ufw 2>&1 >/dev/null; then ufw disable; fi

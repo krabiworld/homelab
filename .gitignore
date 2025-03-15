@@ -1,0 +1,11 @@
+# Vagrant
+.vagrant
+
+# Ansible
+.ansible
+
+# IDE
+.idea
+
+# macOS
+.DS_Store

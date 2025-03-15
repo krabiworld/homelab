@@ -1,0 +1,20 @@
+{
+    "ansible.python.interpreterPath": "/opt/homebrew/bin/python3",
+    "files.associations": {
+        "**/playbook.yml": "ansible",
+        "**/playbooks/*.yml": "ansible",
+        "**/playbooks/*.yaml": "ansible",
+        "**/hostvars/*.yml": "ansible",
+        "**/group_vars/*.yml": "ansible",
+        "**/tasks/*.yaml": "ansible",
+        "**/tasks/*.yml": "ansible",
+        "**/defaults/*.yaml": "ansible",
+        "**/defaults/*.yml": "ansible",
+        "**/vars/*.yaml": "ansible",
+        "**/vars/*.yml": "ansible",
+        "**/meta/*.yaml": "ansible",
+        "**/meta/*.yml": "ansible",
+        "**/handlers/*.yaml": "ansible",
+        "**/handlers/*.yml": "ansible"
+    }
+}

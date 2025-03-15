@@ -1,0 +1,19 @@
+---
+- name: Download K3s Installer
+  ansible.builtin.get_url:
+    url: "{{ k3s_installer }}"
+    dest: /tmp/k3s-install.sh
+    mode: a+x
+
+- name: Install K3s
+  ansible.builtin.shell: /tmp/k3s-install.sh
+
+- name: Remove K3s Installer
+  ansible.builtin.file:
+    path: /tmp/k3s-install.sh
+    state: absent
+
+- name: Change config permissions
+  ansible.builtin.file:
+    path: /etc/rancher/k3s/k3s.yaml
+    mode: u=rw,g=rw,o=rw
