@@ -1,8 +1,9 @@
 # Vagrant
-.vagrant
+vagrant/.vagrant
 
 # Ansible
 .ansible
+ansible/.venv
 
 # IDE
 .idea

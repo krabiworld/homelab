@@ -2,6 +2,7 @@
 - name: Install packages
   ansible.builtin.package:
     name: "{{ bootstrap_packages }}"
+    update_cache: true
 
 - name: Disable UFW
   ansible.builtin.shell: |

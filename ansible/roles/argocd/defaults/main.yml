@@ -1,0 +1,5 @@
+---
+argocd_version: stable
+argocd_manifest: https://raw.githubusercontent.com/argoproj/argo-cd/{{ argocd_version }}/manifests/install.yaml
+argocd_namespace: argocd
+argocd_domain: argocd.krabi.local

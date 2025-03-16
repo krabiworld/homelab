@@ -13,7 +13,14 @@
     path: /tmp/k3s-install.sh
     state: absent
 
-- name: Change config permissions
+- name: Create kube directory
   ansible.builtin.file:
-    path: /etc/rancher/k3s/k3s.yaml
-    mode: u=rw,g=rw,o=rw
+    path: /root/.kube
+    state: directory
+    mode: u+rw
+
+- name: Create a symbolic link
+  ansible.builtin.file:
+    src: "{{ k3s_kubeconfig }}"
+    dest: /root/.kube/config
+    state: link
