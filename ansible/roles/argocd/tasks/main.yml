@@ -22,8 +22,3 @@
   ansible.builtin.file:
     path: /tmp/argocd-manifest.yaml
     state: absent
-
-- name: Setup Ingress
-  kubernetes.core.k8s:
-    template: ingress.yaml.j2
-    state: present

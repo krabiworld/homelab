@@ -1,6 +1,9 @@
 # Vagrant
 vagrant/.vagrant
 
+# Packer
+packer/output-box
+
 # Ansible
 .ansible
 ansible/.venv

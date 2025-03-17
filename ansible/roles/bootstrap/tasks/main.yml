@@ -3,7 +3,3 @@
   ansible.builtin.package:
     name: "{{ bootstrap_packages }}"
     update_cache: true
-
-- name: Disable UFW
-  ansible.builtin.shell: |
-    if command -v ufw 2>&1 >/dev/null; then ufw disable; fi

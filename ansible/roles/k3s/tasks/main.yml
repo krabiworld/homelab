@@ -6,7 +6,10 @@
     mode: a+x
 
 - name: Install K3s
-  ansible.builtin.shell: /tmp/k3s-install.sh
+  ansible.builtin.command:
+    cmd: /tmp/k3s-install.sh
+  register: out
+  changed_when: out.rc == 0
 
 - name: Remove K3s Installer
   ansible.builtin.file:
