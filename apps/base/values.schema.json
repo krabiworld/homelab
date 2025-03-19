@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "properties": {
+    "workload": {
+      "description": "Defines the workload configuration (e.g., Deployment, StatefulSet, or DaemonSet).",
+      "properties": {
+        "kind": {
+          "description": "The type of workload (e.g., Deployment, StatefulSet, or DaemonSet).",
+          "enum": [
+            "Deployment",
+            "StatefulSet",
+            "DaemonSet"
+          ],
+          "type": "string"
+        },
+        "image": {
+          "description": "The Docker image for the container.",
+          "type": "string"
+        },
+        "resources": {
+          "description": "Defines resource limits and requests for the workload.",
+          "properties": {
+            "limits": {
+              "description": "The maximum amount of resources that the container can use.",
+              "properties": {
+                "cpu": {
+                  "description": "The CPU limit for the container.",
+                  "type": "string"
+                },
+                "memory": {
+                  "description": "The memory limit for the container.",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "requests": {
+              "description": "The amount of resources that the container is guaranteed to get.",
+              "properties": {
+                "cpu": {
+                  "description": "The CPU request for the container.",
+                  "type": "string"
+                },
+                "memory": {
+                  "description": "The memory request for the container.",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "image"
+      ],
+      "type": "object"
+    },
+    "service": {
+      "description": "Defines the service configuration, including ports and protocols.",
+      "properties": {
+        "ports": {
+          "description": "A list of ports for the service, including protocol, port, and target port.",
+          "items": {
+            "properties": {
+              "protocol": {
+                "description": "The protocol for the service (TCP or UDP).",
+                "enum": [
+                  "TCP",
+                  "UDP"
+                ],
+                "type": "string"
+              },
+              "port": {
+                "description": "The port exposed by the service.",
+                "minimum": 0,
+                "type": "integer"
+              },
+              "targetPort": {
+                "description": "The target port on the container that the service should forward traffic to.",
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "ports"
+      ],
+      "type": "object"
+    },
+    "ingress": {
+      "description": "Defines the ingress rules and TLS configuration.",
+      "properties": {
+        "tls": {
+          "description": "TLS configuration for the ingress.",
+          "items": {
+            "properties": {
+              "hosts": {
+                "description": "A list of hostnames for the TLS certificate.",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "secretName": {
+                "description": "The name of the Kubernetes Secret that contains the TLS certificate.",
+                "type": "string"
+              }
+            },
+            "required": [
+              "hosts",
+              "secretName"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "rules": {
+          "description": "A list of rules for routing ingress traffic based on host and path.",
+          "items": {
+            "properties": {
+              "host": {
+                "description": "The hostname for the rule.",
+                "type": "string"
+              },
+              "paths": {
+                "description": "A list of paths for routing ingress traffic.",
+                "items": {
+                  "properties": {
+                    "path": {
+                      "description": "The URL path for the ingress rule.",
+                      "type": "string"
+                    },
+                    "pathType": {
+                      "description": "The type of path matching for the ingress rule.",
+                      "enum": [
+                        "ImplementationSpecific",
+                        "Exact",
+                        "Prefix"
+                      ],
+                      "type": "string"
+                    },
+                    "port": {
+                      "description": "The port that the path rule applies to.",
+                      "minimum": 0,
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "port"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "rules"
+      ],
+      "type": "object"
+    },
+    "configMaps": {
+      "description": "A list of ConfigMap configurations to be mounted into the workload.",
+      "items": {
+        "properties": {
+          "name": {
+            "description": "The name of the ConfigMap.",
+            "type": "string"
+          },
+          "mount": {
+            "description": "The mount path for the ConfigMap in the container.",
+            "type": "string"
+          },
+          "filename": {
+            "description": "The filename within the mount for the ConfigMap.",
+            "type": "string"
+          },
+          "data": {
+            "description": "The data to be included in the ConfigMap.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "mount",
+          "filename",
+          "data"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "workload"
+  ],
+  "title": "Values",
+  "type": "object"
+}

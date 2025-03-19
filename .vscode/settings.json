@@ -16,5 +16,10 @@
         "**/meta/*.yml": "ansible",
         "**/handlers/*.yaml": "ansible",
         "**/handlers/*.yml": "ansible"
+    },
+    "yaml.schemas": {
+        "apps/base/values.schema.json": [
+            "apps/**/values.yaml"
+        ]
     }
 }
