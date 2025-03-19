@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: {{ .Values.workload.kind | default "Deployment" }}
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    app: {{ .Chart.Name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: {{ .Values.workload.image }}
+          {{- if .Values.service }}
+          ports:
+            {{- range .Values.service.ports }}
+            - containerPort: {{ .port }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.workload.resources }}
+          resources:
+            {{- if .Values.workload.resources.limits }}
+            limits:
+              {{- if .Values.workload.resources.limits.cpu }}
+              cpu: {{ .Values.workload.resources.limits.cpu }}
+              {{- end }}
+              {{- if .Values.workload.resources.limits.memory }}
+              memory: {{ .Values.workload.resources.limits.memory }}
+              {{- end }}
+            {{- end }}
+            {{- if .Values.workload.resources.requests }}
+            requests:
+              {{- if .Values.workload.resources.requests.cpu }}
+              cpu: {{ .Values.workload.resources.requests.cpu }}
+              {{- end }}
+              {{- if .Values.workload.resources.requests.memory }}
+              memory: {{ .Values.workload.resources.requests.memory }}
+              {{- end }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.configMaps }}
+          volumeMounts:
+            {{- range .Values.configMaps }}
+            - name: {{ .name }}
+              mountPath: {{ .mount }}
+              subPath: {{ .filename }}
+            {{- end }}
+          {{- end }}
+      {{- if .Values.configMaps }}
+      volumes:
+        {{- range .Values.configMaps }}
+        - name: {{ .name }}
+          configMap:
+            name: {{ .name }}
+        {{- end }}
+      {{- end }}

@@ -1,0 +1,61 @@
+---
+- name: Create namespace
+  kubernetes.core.k8s:
+    name: "{{ dashboard_namespace }}"
+    api_version: v1
+    kind: Namespace
+    state: present
+
+- name: Install Kubernetes Dashboard
+  ansible.builtin.template:
+    src: kubernetes-dashboard.yaml.j2
+    dest: "{{ dashboard_helm_controller }}/kubernetes-dashboard.yaml"
+    mode: u=rw
+
+- name: Wait for all deployments become created
+  ansible.builtin.command:
+    argv:
+      - kubectl
+      - get
+      - deployments
+      - "--namespace={{ dashboard_namespace }}"
+      - --output=jsonpath='{.items[*].metadata.name}'
+  register: out
+  changed_when: out.rc == 0
+  until: item in out.stdout
+  retries: 10
+  delay: 10
+  with_items:
+    - kubernetes-dashboard-api
+    - kubernetes-dashboard-auth
+    - kubernetes-dashboard-kong
+    - kubernetes-dashboard-metrics-scraper
+    - kubernetes-dashboard-web
+
+- name: Wait for all pods become ready
+  ansible.builtin.command:
+    argv:
+      - kubectl
+      - wait
+      - pods
+      - --all
+      - --for=condition=Ready
+      - --timeout=180s
+      - "--namespace={{ dashboard_namespace }}"
+  register: out
+  changed_when: out.rc == 0
+
+- name: Create service account
+  kubernetes.core.k8s:
+    template: service-account.yaml.j2
+    state: present
+
+- name: Create cluster role binding
+  kubernetes.core.k8s:
+    template: cluster-role-binding.yaml.j2
+    state: present
+
+- name: Create secret
+  kubernetes.core.k8s:
+    template: secret.yaml.j2
+    state: present

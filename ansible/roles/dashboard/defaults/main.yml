@@ -1,0 +1,4 @@
+---
+dashboard_namespace: kubernetes-dashboard
+dashboard_user: admin-user
+dashboard_helm_controller: /var/lib/rancher/k3s/server/manifests
