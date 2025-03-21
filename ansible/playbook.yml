@@ -5,4 +5,3 @@
   roles:
     - role: bootstrap
     - role: k3s
-    - role: dashboard

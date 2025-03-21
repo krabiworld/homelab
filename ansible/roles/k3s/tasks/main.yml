@@ -8,6 +8,8 @@
 - name: Install K3s
   ansible.builtin.command:
     cmd: /tmp/k3s-install.sh
+  environment:
+    INSTALL_K3S_EXEC: server --disable=traefik
   register: out
   changed_when: out.rc == 0
 

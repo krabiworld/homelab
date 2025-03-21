@@ -1,4 +1,3 @@
 ---
 bootstrap_packages:
   - iptables
-  - python3-kubernetes

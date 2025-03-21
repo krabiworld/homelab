@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: argocd-cert
+spec:
+  secretName: argocd-tls
+  commonName: argocd.krabi.local
+  dnsNames:
+    - argocd.krabi.local
+  issuerRef:
+    name: selfsigned-issuer
+    kind: ClusterIssuer
