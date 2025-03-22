@@ -7,14 +7,12 @@ spec:
     - websecure
   routes:
     - kind: Rule
-      match: Host(`minio.krabi.local`)
-      priority: 10
+      match: Host(`s3.krabi.local`)
       services:
         - name: minio
           port: 9000
     - kind: Rule
-      match: Host(`s3.krabi.local`)
-      priority: 11
+      match: Host(`minio.krabi.local`)
       services:
         - name: minio
           port: 9001

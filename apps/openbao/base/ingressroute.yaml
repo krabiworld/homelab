@@ -1,0 +1,15 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: openbao
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`openbao.krabi.local`)
+      services:
+        - name: openbao
+          port: 8200
+  tls:
+    secretName: openbao-tls
