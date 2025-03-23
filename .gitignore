@@ -1,7 +1,7 @@
 secrets
 
 # Apps
-apps/*/charts
+apps/*/staging
 
 # Vagrant
 vagrant/.vagrant
