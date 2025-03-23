@@ -1,5 +1,4 @@
 {
-    "ansible.python.interpreterPath": "/usr/bin/python3",
     "files.associations": {
         "**/playbook.yml": "ansible",
         "**/playbooks/*.yml": "ansible",
@@ -16,5 +15,6 @@
         "**/meta/*.yml": "ansible",
         "**/handlers/*.yaml": "ansible",
         "**/handlers/*.yml": "ansible"
-    }
+    },
+    "ansible.python.interpreterPath": "/usr/bin/python3"
 }

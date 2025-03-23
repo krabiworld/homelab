@@ -13,28 +13,28 @@ spec:
     spec:
       serviceAccountName: minio-sa
       containers:
-        - name: minio
-          image: minio/minio:latest
-          command:
-            - /bin/bash
-            - -c
-          args:
-            - minio server /data --console-address :9001 --address :9000
-          resources:
-            limits:
-              memory: "512Mi"
-              cpu: "500m"
-          ports:
-            - containerPort: 9000
-            - containerPort: 9001
-          env:
-            - name: MINIO_ROOT_USER
-              valueFrom:
-                secretKeyRef:
-                  key: username
-                  name: minio-secret
-            - name: MINIO_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: minio-secret
+      - name: minio
+        image: minio/minio:latest
+        command:
+        - /bin/bash
+        - -c
+        args:
+        - minio server /data --console-address :9001 --address :9000
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 9000
+        - containerPort: 9001
+        env:
+        - name: MINIO_ROOT_USER
+          valueFrom:
+            secretKeyRef:
+              key: username
+              name: minio-secret
+        - name: MINIO_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: minio-secret

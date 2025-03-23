@@ -5,7 +5,7 @@ metadata:
 spec:
   secretName: openbao-tls
   dnsNames:
-    - openbao.krabi.local
+  - openbao.krabi.local
   issuerRef:
     name: selfsigned-issuer
     kind: ClusterIssuer

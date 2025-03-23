@@ -4,12 +4,12 @@ metadata:
   name: openbao
 spec:
   entryPoints:
-    - websecure
+  - websecure
   routes:
-    - kind: Rule
-      match: Host(`openbao.krabi.local`)
-      services:
-        - name: openbao
-          port: 8200
+  - kind: Rule
+    match: Host(`openbao.krabi.local`)
+    services:
+    - name: openbao
+      port: 8200
   tls:
     secretName: openbao-tls
