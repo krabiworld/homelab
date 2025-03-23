@@ -2,10 +2,10 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: minio
 resources:
-  - namespace.yaml
-  - serviceaccount.yaml
-  - externalsecret.yaml
-  - deployment.yaml
-  - service.yaml
-  - certificate.yaml
-  - ingressroute.yaml
+- base/namespace.yaml
+- base/serviceaccount.yaml
+- base/externalsecret.yaml
+- base/deployment.yaml
+- base/service.yaml
+- base/certificate.yaml
+- base/ingressroute.yaml

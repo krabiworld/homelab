@@ -3,4 +3,4 @@ kind: Kustomization
 # namespace is created by cert-manager 
 resources:
   - https://github.com/cert-manager/cert-manager/releases/download/v1.17.1/cert-manager.yaml
-  - clusterissuer.yaml
+  - base/clusterissuer.yaml

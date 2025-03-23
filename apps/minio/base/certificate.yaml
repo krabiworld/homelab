@@ -5,8 +5,8 @@ metadata:
 spec:
   secretName: minio-tls
   dnsNames:
-    - minio.krabi.local
     - s3.krabi.local
+    - minio.krabi.local
   issuerRef:
     name: selfsigned-issuer
     kind: ClusterIssuer
