@@ -4,8 +4,16 @@ namespace: minio
 resources:
 - namespace.yaml
 - serviceaccount.yaml
-- externalsecret.yaml
+# - externalsecret.yaml
 - deployment.yaml
 - service.yaml
-- certificate.yaml
-- ingressroute.yaml
+- certificate/s3.yaml
+- certificate/minio.yaml
+- gateway/gateway.yaml
+- gateway/s3.yaml
+- gateway/minio.yaml
+configMapGenerator:
+- name: minio-env
+  literals:
+  - MINIO_DOMAIN=s3.krabi.local
+  - MINIO_BROWSER_REDIRECT_URL=https://minio.krabi.local

@@ -19,22 +19,28 @@ spec:
         - /bin/bash
         - -c
         args:
-        - minio server /data --console-address :9001 --address :9000
+        - minio server /data --console-address :9001
         resources:
+          requests:
+            cpu: "0m"
+            memory: "128Mi"
           limits:
-            memory: "512Mi"
             cpu: "500m"
+            memory: "512Mi"
         ports:
         - containerPort: 9000
         - containerPort: 9001
-        env:
-        - name: MINIO_ROOT_USER
-          valueFrom:
-            secretKeyRef:
-              key: username
-              name: minio-secret
-        - name: MINIO_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: password
-              name: minio-secret
+        envFrom:
+        - configMapRef:
+            name: minio-env
+        # env:
+        # - name: MINIO_ROOT_USER
+        #   valueFrom:
+        #     secretKeyRef:
+        #       key: username
+        #       name: minio-secret
+        # - name: MINIO_ROOT_PASSWORD
+        #   valueFrom:
+        #     secretKeyRef:
+        #       key: password
+        #       name: minio-secret

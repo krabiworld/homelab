@@ -1,0 +1,27 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: minio-gateway
+spec:
+  gatewayClassName: istio
+  listeners:
+  - name: s3-https
+    port: 443
+    protocol: HTTPS
+    hostname: "*.s3.krabi.local"
+    tls:
+      certificateRefs:
+      - name: s3-tls
+    allowedRoutes:
+      namespaces:
+        from: Same
+  - name: minio-https
+    port: 443
+    protocol: HTTPS
+    hostname: minio.krabi.local
+    tls:
+      certificateRefs:
+      - name: minio-tls
+    allowedRoutes:
+      namespaces:
+        from: Same
