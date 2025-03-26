@@ -1,11 +1,12 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: s3-cert
+  name: minio-cert
 spec:
-  secretName: s3-tls
+  secretName: minio-tls
   dnsNames:
   - "*.s3.krabi.local"
+  - minio.krabi.local
   issuerRef:
     name: selfsigned-issuer
     kind: ClusterIssuer

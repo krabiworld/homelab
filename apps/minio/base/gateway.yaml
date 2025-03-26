@@ -11,7 +11,7 @@ spec:
     hostname: "*.s3.krabi.local"
     tls:
       certificateRefs:
-      - name: s3-tls
+      - name: minio-tls
     allowedRoutes:
       namespaces:
         from: Same

@@ -3,15 +3,11 @@ kind: Kustomization
 namespace: minio
 resources:
 - namespace.yaml
-- serviceaccount.yaml
-# - externalsecret.yaml
 - deployment.yaml
 - service.yaml
-- certificate/s3.yaml
-- certificate/minio.yaml
-- gateway/gateway.yaml
-- gateway/s3.yaml
-- gateway/minio.yaml
+- certificate.yaml
+- gateway.yaml
+- httproute.yaml
 configMapGenerator:
 - name: minio-env
   literals:
