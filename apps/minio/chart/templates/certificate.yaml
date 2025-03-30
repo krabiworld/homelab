@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: minio-cert
+spec:
+  secretName: minio-tls
+  dnsNames:
+  - "*.{{ .Values.domains.storage }}"
+  - {{ .Values.domains.console }}
+  issuerRef:
+    name: selfsigned-issuer
+    kind: ClusterIssuer

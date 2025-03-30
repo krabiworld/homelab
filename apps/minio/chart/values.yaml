@@ -1,0 +1,3 @@
+domains:
+  storage: s3.krabi.local
+  console: minio.krabi.local
