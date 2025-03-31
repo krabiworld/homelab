@@ -5,20 +5,20 @@ metadata:
 spec:
   gatewayClassName: istio
   listeners:
-  - name: s3-https
+  - name: storage-https
     port: 443
     protocol: HTTPS
-    hostname: "*.s3.krabi.local"
+    hostname: "*.{{ .Values.domains.storage }}"
     tls:
       certificateRefs:
       - name: minio-tls
     allowedRoutes:
       namespaces:
         from: Same
-  - name: minio-https
+  - name: console-https
     port: 443
     protocol: HTTPS
-    hostname: minio.krabi.local
+    hostname: {{ .Values.domains.console }}
     tls:
       certificateRefs:
       - name: minio-tls

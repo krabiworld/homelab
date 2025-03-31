@@ -4,7 +4,3 @@ resources:
 - fluxcd
 - istio/base
 - cert-manager/base
-- traefik/base
-- openbao/base
-- external-secrets/base
-- minio/base

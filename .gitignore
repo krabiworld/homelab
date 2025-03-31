@@ -2,6 +2,7 @@ secrets
 
 # Apps
 apps/*/staging
+apps/*/values.dev.yaml
 
 # Vagrant
 vagrant/.vagrant
