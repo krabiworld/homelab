@@ -29,5 +29,13 @@ func main() {
 				Port:    9001,
 			},
 		},
+		Stateful:   true,
+		VolumeSize: "10Gi",
+		Volumes: []structs.Volume{
+			{
+				Name:      "data",
+				MountPath: "/data",
+			},
+		},
 	})
 }
