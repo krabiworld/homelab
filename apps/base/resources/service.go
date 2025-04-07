@@ -24,7 +24,8 @@ func AddService(m structs.Meta) *core.Service {
 			Kind:       "Service",
 		},
 		ObjectMeta: meta.ObjectMeta{
-			Name: m.Name,
+			Name:      m.Name,
+			Namespace: m.Namespace,
 		},
 		Spec: core.ServiceSpec{
 			Selector: map[string]string{

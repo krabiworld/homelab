@@ -2,7 +2,6 @@ package resources
 
 import (
 	"base/structs"
-	"fmt"
 
 	cm "github.com/cert-manager/cert-manager/pkg/apis/certmanager/v1"
 	cmmeta "github.com/cert-manager/cert-manager/pkg/apis/meta/v1"
@@ -21,10 +20,11 @@ func AddCertificate(m structs.Meta) *cm.Certificate {
 			Kind:       "Certificate",
 		},
 		ObjectMeta: meta.ObjectMeta{
-			Name: fmt.Sprintf("%s-cert", m.Name),
+			Name:      m.Name,
+			Namespace: m.Namespace,
 		},
 		Spec: cm.CertificateSpec{
-			SecretName: fmt.Sprintf("%s-tls", m.Name),
+			SecretName: m.Name,
 			DNSNames:   []string{},
 			IssuerRef: cmmeta.ObjectReference{
 				Name: "selfsigned-issuer",

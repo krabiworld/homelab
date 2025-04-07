@@ -4,6 +4,7 @@ import core "k8s.io/api/core/v1"
 
 type Meta struct {
 	Name      string
+	Namespace string
 	Image     string
 	Command   []string
 	Args      []string

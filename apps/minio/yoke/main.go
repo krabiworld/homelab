@@ -7,8 +7,9 @@ import (
 
 func main() {
 	base.Generate(structs.Meta{
-		Name:  "minio",
-		Image: "minio/minio:latest",
+		Name:      "minio",
+		Namespace: "minio",
+		Image:     "minio/minio:latest",
 		Command: []string{
 			"/bin/bash",
 			"-c",

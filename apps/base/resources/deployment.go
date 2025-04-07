@@ -22,7 +22,8 @@ func AddDeployment(m structs.Meta) *apps.Deployment {
 			Kind:       "Deployment",
 		},
 		ObjectMeta: meta.ObjectMeta{
-			Name: m.Name,
+			Name:      m.Name,
+			Namespace: m.Namespace,
 		},
 		Spec: apps.DeploymentSpec{
 			Selector: &meta.LabelSelector{

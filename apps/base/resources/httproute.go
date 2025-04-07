@@ -2,7 +2,6 @@ package resources
 
 import (
 	"base/structs"
-	"fmt"
 
 	meta "k8s.io/apimachinery/pkg/apis/meta/v1"
 	gw "sigs.k8s.io/gateway-api/apis/v1"
@@ -17,13 +16,14 @@ func AddHTTPRoute(m structs.Meta) []*gw.HTTPRoute {
 				Kind:       "HTTPRoute",
 			},
 			ObjectMeta: meta.ObjectMeta{
-				Name: fmt.Sprintf("%s-route", m.Name),
+				Name:      m.Name,
+				Namespace: m.Namespace,
 			},
 			Spec: gw.HTTPRouteSpec{
 				CommonRouteSpec: gw.CommonRouteSpec{
 					ParentRefs: []gw.ParentReference{
 						{
-							Name: gw.ObjectName(fmt.Sprintf("%s-gateway", m.Name)),
+							Name: gw.ObjectName(m.Name),
 						},
 					},
 				},
