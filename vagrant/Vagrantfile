@@ -1,12 +1,13 @@
 Vagrant.configure("2") do |c|
-    c.vm.box = "homelab/ubuntu"
-    # c.vm.box = "net9/ubuntu-24.04-arm64"
+    # c.vm.box = "homelab/ubuntu"
+    c.vm.box = "net9/ubuntu-24.04-arm64"
     
     c.vm.synced_folder ".", "/vagrant", disabled: true
+    c.vm.synced_folder "../bash", "/home/vagrant/bash", type: "virtualbox"
 
-    c.vm.network "forwarded_port", guest: 80, host: 8080
-    c.vm.network "forwarded_port", guest: 443, host: 4433
-    c.vm.network "forwarded_port", guest: 6443, host: 6444
+    # c.vm.network "forwarded_port", guest: 80, host: 8080
+    # c.vm.network "forwarded_port", guest: 443, host: 4433
+    # c.vm.network "forwarded_port", guest: 6443, host: 6444
 
     c.vm.provider "virtualbox" do |v|
         v.memory = 1024

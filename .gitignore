@@ -4,6 +4,11 @@ secrets
 apps/*/staging
 apps/*/values.dev.yaml
 
+# Bash
+bash/certificates/*
+!bash/certificates/ca.conf
+bash/downloads
+
 # Vagrant
 vagrant/.vagrant
 
