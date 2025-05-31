@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd certificates
+cd certificates || exit
 
 openssl genrsa -out ca.key 4096
 openssl req -x509 -new -sha512 -noenc \
@@ -18,11 +18,11 @@ certs=(
   service-accounts
 )
 
-for i in ${certs[*]}; do
+for i in "${certs[@]}"; do
   openssl genrsa -out "${i}.key" 4096
 
   openssl req -new -key "${i}.key" -sha256 \
-    -config "ca.conf" -section ${i} \
+    -config "ca.conf" -section "$i" \
     -out "${i}.csr"
 
   openssl x509 -req -days 3653 -in "${i}.csr" \
@@ -35,7 +35,8 @@ done
 
 mkdir -p /var/lib/kubernetes/
 
-export ENCRYPTION_KEY=$(head -c 32 /dev/urandom | base64)
+ENCRYPTION_KEY=$(head -c 32 /dev/urandom | base64)
+export ENCRYPTION_KEY
 
 envsubst < ../configs/encryption-config.yaml > encryption-config.yaml
 

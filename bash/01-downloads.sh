@@ -17,7 +17,7 @@ mkdir -p \
   /var/lib/kubernetes \
   /var/run/kubernetes
 
-cd downloads
+cd downloads || exit
 
 # CNI
 mkdir cni

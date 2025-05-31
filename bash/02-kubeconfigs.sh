@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd certificates
+cd certificates || exit
 
 # kubelet
 kubectl config set-cluster krabernetes \
