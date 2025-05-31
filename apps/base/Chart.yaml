@@ -1,0 +1,4 @@
+apiVersion: v2
+name: base
+description: Base helm chart
+version: 0.1.0

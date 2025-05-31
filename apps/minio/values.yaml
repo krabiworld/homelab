@@ -1,3 +1,62 @@
-domains:
-  storage: s3.krabi.local
-  console: minio.krabi.local
+pod:
+  image: minio/minio:latest
+  pullPolicy: IfNotPresent
+  command:
+    - /bin/bash
+    - -c
+  args:
+    - minio server /data --console-address :9001
+  ports:
+    - containerPort: 9000
+    - containerPort: 9001
+  resources:
+    requests:
+      cpu: "0m"
+      memory: "128Mi"
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
+  env:
+    - name: MINIO_DOMAIN
+      value: s3.krabi.local
+    - name: MINIO_BROWSER_REDIRECT_URL
+      value: https://minio.krabi.local
+
+certificates:
+  - secretName: minio-tls
+    dnsNames:
+      - "*.s3.krabi.local"
+      - "minio.krabi.local"
+    issuerRef:
+      name: selfsigned-issuer
+      kind: ClusterIssuer
+
+service:
+  type: ClusterIP
+  ports:
+    - port: 9000
+      targetPort: 9000
+      name: storage
+    - port: 9001
+      targetPort: 9001
+      name: console
+
+gateway:
+  gatewayClassName: istio
+  listeners:
+    - name: storage-https
+      hostname: "*.s3.krabi.local"
+      certificateName: minio-tls
+    - name: console-https
+      hostname: "minio.krabi.local"
+      certificateName: minio-tls
+
+httpRoutes:
+  - name: storage
+    hostnames:
+      - "*.s3.krabi.local"
+    port: 9000
+  - name: console
+    hostnames:
+      - "minio.krabi.local"
+    port: 9001

@@ -1,0 +1,48 @@
+pod:
+  image: nginx:latest
+  pullPolicy: IfNotPresent
+  command:
+    - /bin/bash
+    - -c
+  args:
+    - nginx /etc/nginx/nginx.conf
+  ports:
+    - containerPort: 80
+  resources:
+    requests:
+      cpu: "0m"
+      memory: "128Mi"
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
+  env:
+    - name: NGINX_PORT
+      value: 80
+
+certificates:
+  - secretName: nginx-tls
+    dnsNames:
+      - "krabi.local"
+    issuerRef:
+      name: selfsigned-issuer
+      kind: ClusterIssuer
+
+service:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+      name: http
+
+gateway:
+  gatewayClassName: istio
+  listeners:
+    - name: nginx-https
+      hostname: "krabi.local"
+      certificateName: nginx-tls
+
+httpRoutes:
+  - name: nginx
+    hostnames:
+      - "krabi.local"
+    port: 80
