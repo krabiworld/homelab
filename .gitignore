@@ -1,24 +1,3 @@
-secrets
-
-# Apps
-apps/*/staging
-apps/*/values.dev.yaml
-
-# Bash
-bash/certificates/*
-!bash/certificates/ca.conf
-bash/downloads
-
-# Vagrant
-vagrant/.vagrant
-
-# Packer
-packer/output-box
-
-# Ansible
-.ansible
-ansible/.venv
-
 # IDE
 .idea
 

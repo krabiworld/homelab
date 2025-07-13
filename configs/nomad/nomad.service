@@ -1,0 +1,16 @@
+[Unit]
+Description=Nomad: Flexible scheduler and workload orchestrator
+Wants=network.target network-online.target consul.service
+After=network.target network-online.target consul.service
+
+[Service]
+Type=simple
+User=root
+Group=nomad
+ExecStart=/usr/local/bin/nomad agent -config=/etc/nomad/agent.hcl
+Restart=always
+KillMode=process
+KillSignal=SIGTERM
+
+[Install]
+WantedBy=multi-user.target
