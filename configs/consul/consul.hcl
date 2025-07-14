@@ -26,7 +26,6 @@ addresses {
 
 ports  {
   grpc = 8502
-  dns = 8053
 }
 
 telemetry {
