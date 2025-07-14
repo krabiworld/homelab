@@ -54,6 +54,9 @@ providers:
     token: {{ env "CONSUL_TOKEN" }}
 
   consulCatalog:
+    endpoint:
+      address: unix://{{ env "NOMAD_ALLOC_DIR" }}/tmp/consul_http.sock
+      scheme: http
     serviceName: traefik
     connectAware: true
     connectByDefault: true
