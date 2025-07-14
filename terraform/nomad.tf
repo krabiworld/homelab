@@ -48,6 +48,16 @@ resource "consul_acl_role" "nomad_tasks_default" {
   policies = [consul_acl_policy.nomad_tasks.name]
 }
 
+resource "consul_config_entry" "consul_proxy_defaults" {
+  kind = "proxy-defaults"
+  name = "global"
+  config_json = jsonencode({
+    Config = {
+      envoy_prometheus_bind_addr = "0.0.0.0:19000"
+    }
+  })
+}
+
 # Vault
 resource "vault_policy" "nomad_server" {
   name   = "nomad-server"

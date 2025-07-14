@@ -28,3 +28,7 @@ ports  {
   grpc = 8502
   dns = 8053
 }
+
+telemetry {
+  prometheus_retention_time = "59m"
+}
