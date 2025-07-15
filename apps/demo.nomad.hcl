@@ -4,6 +4,11 @@ job "demo" {
 
     network {
       mode = "bridge"
+
+      port "http" {
+        to = -1
+      }
+
       port "metrics" {
         to = -1
       }
@@ -13,12 +18,19 @@ job "demo" {
 
     service {
       name = "demo"
-      port = 80
+      port = "http"
 
       tags = [
         "traefik.enable=true",
         "traefik.http.routers.demo.rule=Host(`demo.test`)",
       ]
+
+      check {
+        type     = "http"
+        path     = "/"
+        interval = "2s"
+        timeout  = "2s"
+      }
 
       connect {
         sidecar_service {
@@ -46,6 +58,7 @@ job "demo" {
 
       config {
         image = "hashicorp/demo-webapp-lb-guide"
+        ports = ["http"]
       }
 
       resources {
@@ -56,8 +69,8 @@ job "demo" {
         env = true
         destination = "$${NOMAD_TASK_DIR}/.env"
         data = <<EOF
-PORT = "80"
-NODE_IP = "{{ env "NOMAD_IP_connect_proxy_demo" }}"
+PORT = "{{ env "NOMAD_PORT_http" }}"
+NODE_IP = "{{ env "NOMAD_IP_http" }}"
 EOF
       }
     }
