@@ -1,8 +1,14 @@
 job "prometheus" {
   group "prometheus" {
     network {
-      port "prometheus_ui" {
-        static = 9090
+      mode = "bridge"
+
+      port "http" {
+        to = -1
+      }
+
+      port "metrics" {
+        to = -1
       }
     }
 
@@ -19,27 +25,52 @@ job "prometheus" {
 
     consul {}
 
+    service {
+      name = "prometheus"
+      port = "http"
+
+      tags = [
+        "urlprefix-/",
+        "traefik.enable=true",
+        "traefik.http.routers.prometheus.rule=Host(`prometheus.test`)",
+      ]
+
+      check {
+        name     = "prometheus_ui port alive"
+        type     = "http"
+        path     = "/-/healthy"
+        interval = "10s"
+        timeout  = "2s"
+      }
+
+      connect {
+        sidecar_service {
+          proxy {
+            expose {
+              path {
+                path            = "/metrics"
+                protocol        = "http"
+                listener_port   = "metrics"
+                local_path_port = 19000
+              }
+            }
+          }
+        }
+      }
+    }
+
+    service {
+      name = "demo-metrics"
+      port = "metrics"
+    }
+
     task "prometheus" {
       driver = "docker"
 
       config {
         image = "prom/prometheus:latest"
-        args = ["--config.file=$${NOMAD_TASK_DIR}/prometheus.yml"]
-        ports = ["prometheus_ui"]
-      }
-
-      service {
-        name = "prometheus"
-        tags = ["urlprefix-/"]
-        port = "prometheus_ui"
-
-        check {
-          name     = "prometheus_ui port alive"
-          type     = "http"
-          path     = "/-/healthy"
-          interval = "10s"
-          timeout  = "2s"
-        }
+        args = ["--config.file=$${NOMAD_TASK_DIR}/prometheus.yml", "--web.listen-address=:$${NOMAD_PORT_http}"]
+        ports = ["http"]
       }
 
       template {

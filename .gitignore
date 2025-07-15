@@ -1,3 +1,10 @@
+# Terraform
+.terraform/
+.terraform.lock.hcl
+*.tfvars
+*.tfstate
+*.tfstate.backup
+
 # IDE
 .idea
 

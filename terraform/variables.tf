@@ -20,7 +20,3 @@ variable "vault_token" {
 variable "nomad_endpoint" {
   type = string
 }
-
-variable "nomad_token" {
-  type = string
-}
