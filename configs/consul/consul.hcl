@@ -5,6 +5,10 @@ bind_addr = "0.0.0.0"
 
 ui_config {
   enabled = true
+  metrics_provider = "prometheus"
+  metrics_proxy {
+    base_url = "http://192.0.2.1:9090"
+  }
 }
 
 server = true
