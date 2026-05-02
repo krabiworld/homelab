@@ -1,0 +1,6 @@
+services:
+  zot:
+    container_name: zot
+    image: ghcr.io/project-zot/zot-linux-amd64
+    ports:
+      - "5000:5000"

@@ -1,0 +1,15 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: prometheus-operator
+spec:
+  interval: 1h
+  releaseName: prometheus
+  chartRef:
+    kind: OCIRepository
+    name: prometheus-operator
+  values:
+    alertmanager:
+      enabled: false
+    kubeProxy:
+      enabled: false

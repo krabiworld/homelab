@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: forgejo
+  labels:
+    app: forgejo
+spec:
+  selector:
+    matchLabels:
+      app: forgejo
+  template:
+    metadata:
+      labels:
+        app: forgejo
+    spec:
+      containers:
+        - name: forgejo
+          image: codeberg.org/forgejo/forgejo:15
+          ports:
+            - containerPort: 3000
+          env:
+            - name: USER_UID
+              value: "1000"
+            - name: USER_GID
+              value: "1000"
+            - name: FORGEJO__database__DB_TYPE
+              value: "postgres"
+            - name: FORGEJO__database__HOST
+              value: "forgejo-db-rw:5432"
+            - name: FORGEJO__database__NAME
+              valueFrom:
+                secretKeyRef:
+                  name: forgejo-db-app
+                  key: dbname
+            - name: FORGEJO__database__USER
+              valueFrom:
+                secretKeyRef:
+                  name: forgejo-db-app
+                  key: username
+            - name: FORGEJO__database__PASSWD
+              valueFrom:
+                secretKeyRef:
+                  name: forgejo-db-app
+                  key: password
+          volumeMounts:
+            - name: forgejo-storage
+              mountPath: /data
+      volumes:
+        - name: forgejo-storage
+          persistentVolumeClaim:
+            claimName: forgejo-data-pvc

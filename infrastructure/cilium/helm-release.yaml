@@ -1,0 +1,29 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cilium
+spec:
+  interval: 1h
+  releaseName: cilium
+  chartRef:
+    kind: OCIRepository
+    name: cilium
+  values:
+    cluster:
+      name: kind-homelab
+    gatewayAPI:
+      enabled: true
+    hubble:
+      relay:
+        enabled: true
+      ui:
+        enabled: true
+    ipam:
+      mode: kubernetes
+    k8sServiceHost: homelab-control-plane
+    k8sServicePort: 6443
+    kubeProxyReplacement: true
+    l2announcements:
+      enabled: true
+    operator:
+      replicas: 1

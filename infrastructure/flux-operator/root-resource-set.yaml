@@ -1,0 +1,85 @@
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSet
+metadata:
+  name: root-resource-set
+  namespace: flux-system
+spec:
+  inputs:
+    - group: infrastructure
+      service: cilium
+      namespace: kube-system
+      dependsOn: ""
+    - group: infrastructure
+      service: flux-operator
+      namespace: flux-system
+      dependsOn: ""
+    - group: infrastructure
+      service: cert-manager-operator
+      namespace: cert-manager
+      dependsOn: ""
+    - group: infrastructure
+      service: cert-manager
+      namespace: cert-manager
+      dependsOn:
+        - name: cert-manager-operator
+    - group: infrastructure
+      service: gateway
+      namespace: default
+      dependsOn:
+        - name: cert-manager
+    - group: infrastructure
+      service: prometheus-operator
+      namespace: prometheus
+      dependsOn: ""
+    - group: infrastructure
+      service: prometheus
+      namespace: prometheus
+      dependsOn:
+        - name: prometheus-operator
+    - group: infrastructure
+      service: openbao-operator
+      namespace: openbao
+      dependsOn: ""
+    - group: infrastructure
+      service: cloudnative-pg
+      namespace: cnpg-system
+      dependsOn: ""
+    - group: infrastructure
+      service: redis-operator
+      namespace: ot-operators
+      dependsOn: ""
+    - group: infrastructure
+      service: garage-operator
+      namespace: garage-operator-system
+      dependsOn: ""
+    - group: apps
+      service: nginx
+      namespace: nginx
+      dependsOn: ""
+    - group: apps
+      service: forgejo
+      namespace: forgejo
+      dependsOn:
+        - name: cloudnative-pg
+  resourcesTemplate: |
+    apiVersion: kustomize.toolkit.fluxcd.io/v1
+    kind: Kustomization
+    metadata:
+      name: << inputs.service >>
+      namespace: flux-system
+    spec:
+      << if eq inputs.group "infrastructure" >>
+      interval: 1h
+      << else >>
+      interval: 10m
+      << end >>
+      targetNamespace: << inputs.namespace >>
+      sourceRef:
+        kind: OCIRepository
+        name: flux-system
+      path: << inputs.group >>/<< inputs.service >>
+      wait: true
+      prune: true
+      << if inputs.dependsOn >>
+      dependsOn: << inputs.dependsOn | toYaml | nindent 2 >>
+      << end >>

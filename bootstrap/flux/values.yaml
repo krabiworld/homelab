@@ -1,0 +1,18 @@
+reporting:
+  interval: 1m
+web:
+  config:
+    authentication:
+      type: Anonymous
+      anonymous:
+        username: flux
+        groups:
+          - flux-admin
+  httpRoute:
+    enabled: true
+    parentRefs:
+      - name: default
+        namespace: default
+        sectionName: https
+    hostnames:
+      - flux.home.arpa
