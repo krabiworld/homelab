@@ -2,10 +2,11 @@ version: 3
 tasks:
   push:
     vars:
+      REGISTRY: '{{.REGISTRY | default "localhost:5000"}}'
       SOURCE:
         sh: git config --get remote.origin.url
       BRANCH:
         sh: git branch --show-current
       REVISION:
         sh: git rev-parse HEAD
-    cmd: flux push artifact oci://localhost:5000/homelab --path=. --source="{{.SOURCE}}" --revision="{{.BRANCH}}@sha1:{{.REVISION}}"
+    cmd: flux push artifact oci://{{.REGISTRY}}/homelab --path=. --source="{{.SOURCE}}" --revision="{{.BRANCH}}@sha1:{{.REVISION}}"

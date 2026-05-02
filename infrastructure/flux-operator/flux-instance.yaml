@@ -17,3 +17,12 @@ spec:
     url: oci://registry:5000/homelab
     ref: latest
     path: infrastructure/flux-operator
+  kustomize:
+    patches:
+      - # language="yaml"
+        patch: |-
+          - op: add
+            path: /spec/insecure
+            value: true
+        target:
+          kind: OCIRepository

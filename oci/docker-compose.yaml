@@ -1,6 +1,12 @@
 services:
-  zot:
-    container_name: zot
+  registry:
+    container_name: registry
     image: ghcr.io/project-zot/zot-linux-amd64
+    networks:
+      - kind
     ports:
       - "5000:5000"
+
+networks:
+  kind:
+    external: true
