@@ -1,0 +1,62 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: root-application-set
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - list:
+        elements:
+          - group: infrastructure
+            service: cilium
+            namespace: kube-system
+          - group: infrastructure
+            service: argocd
+            namespace: argocd
+          - group: infrastructure
+            service: cert-manager
+            namespace: cert-manager
+          - group: infrastructure
+            service: gateway
+            namespace: default
+          - group: infrastructure
+            service: prometheus
+            namespace: prometheus
+          - group: infrastructure
+            service: openbao-operator
+            namespace: openbao
+          - group: infrastructure
+            service: cloudnative-pg
+            namespace: cnpg-system
+          - group: infrastructure
+            service: redis-operator
+            namespace: ot-operators
+          - group: infrastructure
+            service: garage-operator
+            namespace: garage-operator-system
+          - group: apps
+            service: nginx
+            namespace: nginx
+          - group: apps
+            service: forgejo
+            namespace: forgejo
+  template:
+    metadata:
+      name: "root-{{ .service }}"
+    spec:
+      project: default
+      source:
+        repoURL: oci://registry:5000/homelab
+        targetRevision: latest
+        path: "{{ .group }}/{{ .service }}"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "{{ .namespace }}"
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

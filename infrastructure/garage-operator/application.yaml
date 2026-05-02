@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: garage-operator
+  namespace: argocd
+spec:
+  project: default
+  source:
+    path: .
+    repoURL: oci://ghcr.io/rajsinghtech/charts/garage-operator
+    targetRevision: 0.3.16
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: garage-operator-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

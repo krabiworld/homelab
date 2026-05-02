@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: gateway-cert
+spec:
+  secretName: gateway-tls
+  dnsNames:
+    - "*.home.arpa"
+  issuerRef:
+    name: ca-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io

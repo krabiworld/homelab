@@ -1,0 +1,4 @@
+version: 3
+tasks:
+  push:
+    cmd: oras push --plain-http localhost:5000/homelab:latest .

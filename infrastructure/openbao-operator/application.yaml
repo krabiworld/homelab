@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: openbao
+  namespace: argocd
+spec:
+  project: default
+  source:
+    path: .
+    repoURL: oci://ghcr.io/openbao/charts/openbao
+    targetRevision: 0.27.2
+    helm:
+      valuesObject:
+        server:
+          gateway:
+            httpRoute:
+              enabled: true
+              parentRefs:
+                - name: default
+                  namespace: default
+                  sectionName: https
+              hosts:
+                - openbao.home.arpa
+        ui:
+          enabled: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: openbao
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  ignoreDifferences:
+    - group: admissionregistration.k8s.io
+      kind: MutatingWebhookConfiguration
+      name: openbao-agent-injector-cfg
+      jsonPointers:
+        - /webhooks/0/clientConfig/caBundle

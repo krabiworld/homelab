@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+  namespace: argocd
+spec:
+  project: default
+  source:
+    path: .
+    repoURL: oci://quay.io/jetstack/charts/cert-manager
+    targetRevision: v1.20.2
+    helm:
+      valuesObject:
+        crds:
+          enabled: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cert-manager
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
