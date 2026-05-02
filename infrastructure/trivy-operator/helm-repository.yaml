@@ -1,0 +1,10 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: trivy-operator
+spec:
+  interval: 1h
+  releaseName: trivy-operator
+  chartRef:
+    kind: OCIRepository
+    name: trivy-operator

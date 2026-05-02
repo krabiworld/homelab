@@ -52,6 +52,10 @@ spec:
       service: garage-operator
       namespace: garage-operator-system
       dependsOn: ""
+    - group: infrastructure
+      service: trivy-operator
+      namespace: trivy-system
+      dependsOn: ""
     - group: apps
       service: nginx
       namespace: nginx
