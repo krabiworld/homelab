@@ -1,0 +1,16 @@
+[Unit]
+Description=Consul: Identity-based networking solution
+Wants=network.target network-online.target
+After=network.target network-online.target
+
+[Service]
+User=consul
+Group=consul
+ExecStart=/usr/local/bin/consul agent -config-file=/etc/consul/agent.hcl
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
